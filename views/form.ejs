@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        form {
+            border-radius: 5px;
+            background-color: #eff8ff;
+            padding: 20px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type=submit] {
+            width: 100%;
+            background-color: #04a96d;
+            color: white;
+            padding: 14px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px; /* Diubah ke 4px agar konsisten */
+            cursor: pointer;
+        }
+
+        input[type=submit]:hover {
+            background-color: #038958;
+        }
+
+        input[type=button] {
+            width: 100%;
+            background-color: #390dea;
+            color: white;
+            padding: 14px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type=button]:hover {
+            background-color: #2f0bc0;
+        }
+        input:focus,
+        select:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 1px #2563eb;
+            outline: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <form action="" method="POST">
+        <input type="text" name="name" placeholder="insert your name" value="<%= item.name %>"><br>
+        <input type="number" name="height" placeholder="insert your height" value="<%= item.height %>"><br>
+        
+        <input type="number" name="weight" placeholder="insert your weight" value="<%= item.weight %>" step="0.1"><br>
+       
+        <input type="date" id="birthdate" name="birthdate" value="<%= item.birthdate %>"><br>
+        <select name="isMarried">
+            <option value="">have you married ?</option>
+           
+            <option value="false" <%= !item.isMarried ? 'selected' : '' %>>Not yet</option>
+           
+            <option value="true" <%= item.isMarried ? 'selected' : '' %>>Yes</option>
+        </select><br>
+        <input type="submit" value="<%= item.save %>"><br>
+        <input type="button" value="<%= item.cancel %>" onclick="window.location.href='/'">
+    </form>
+
+</body>
+</html>
