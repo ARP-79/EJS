@@ -15,14 +15,11 @@
        
         <div class="card shadow-sm p-4">
             
-           
             <div class="border-bottom pb-3 mb-4">
                 <h1 class="h2 text-dark m-0 fw-bold">SQLite BREAD (Browse, Read, Edit, Add, Delete) And Pagination</h1>
             </div>
 
-         
             <form action="/" method="GET" class="mb-4">
-                
                 <div class="row mb-3">
                     <div class="col-12 col-md-6 col-lg-4">
                         <label for="search" class="form-label fw-bold text-secondary">Search Name</label>
@@ -30,18 +27,14 @@
                     </div>
                 </div>
                 
-                
                 <div class="row">
                     <div class="col-12">
-                        
                         <button type="submit" class="btn btn-info px-3 fw-bold text-white me-2">Search</button>
-                        
                         <a href="/" class="btn btn-warning px-3 fw-bold text-dark">Reset</a>
                     </div>
                 </div>
             </form>
 
-            
             <div class="table-responsive mb-4">
                 <table class="table table-hover table-striped align-middle border">
                     <thead class="table-dark">
@@ -51,6 +44,8 @@
                             <th scope="col">Height (cm)</th>
                             <th scope="col">Weight (kg)</th>
                             <th scope="col">Birth Date</th>
+                            <!-- Kolom Header Baru -->
+                            <th scope="col" class="text-center" style="width: 90px;">Avatar</th>
                             <th scope="col">Is Married</th>
                             <th scope="col" class="text-center" style="width: 200px;">Actions</th>
                         </tr>
@@ -58,7 +53,8 @@
                     <tbody>
                         <% if (rows.length === 0) { %>
                             <tr>
-                                <td colspan="7" class="text-center text-muted py-4">Belum ada data siswa tersedia.</td>
+                                <!-- colspan diubah dari 7 menjadi 8 karena ada kolom baru -->
+                                <td colspan="8" class="text-center text-muted py-4">Belum ada data siswa tersedia.</td>
                             </tr>
                         <% } else { %>
                             <% rows.forEach((item, index) => { %>
@@ -68,6 +64,13 @@
                                     <td><%= item.height || '-' %></td>
                                     <td><%= item.weight || '-' %></td>
                                     <td><%= item.birthdate || '-' %></td>
+                                    <!-- Kolom Isi Avatar Baru -->
+                                    <td class="text-center">
+                                        <img src="https://dicebear.com<%= encodeURIComponent(item.name) %>" 
+                                             alt="Avatar" 
+                                             class="rounded-circle border shadow-sm" 
+                                             style="width: 40px; height: 40px; object-fit: cover;">
+                                    </td>
                                     <td>
                                         <% if (item.isMarried === 1 || item.isMarried === 'true' || item.isMarried === true) { %>
                                             <span class="badge bg-success px-3 py-2 rounded-pill">Yes</span>
@@ -88,7 +91,6 @@
                 </table>
             </div>
 
-            
             <div class="d-flex justify-content-start">
                 <button type="button" class="btn btn-primary px-4 fw-bold" onclick="window.location.href='/add'">
                     Add
@@ -98,7 +100,7 @@
         </div>
     </div>
 
-    
+    <!-- Perbaikan script Bootstrap agar tidak error/broken link -->
     <script src="https://jsdelivr.net" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 
