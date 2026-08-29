@@ -53,85 +53,87 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <% if (rows.length === 0) { %>
+                        <% if (rows.length===0) { %>
                             <tr>
                                 <td colspan="8" class="text-center text-muted py-4">Belum ada data siswa tersedia.</td>
                             </tr>
-                        <% } else { %>
-                            <% rows.forEach((item, index) => { %>
-                                <tr>
-                                    <td class="fw-bold">
-                                        <%= (typeof currentOffset !== 'undefined' ? currentOffset : 0) + index + 1 %>
-                                    </td>
-                                    <td>
-                                        <%= item.name %>
-                                    </td>
-                                    <td>
-                                        <%= item.height || '-' %>
-                                    </td>
-                                    <td>
-                                        <%= item.weight || '-' %>
-                                    </td>
-                                    <td>
-                                        <%= item.birthdate || '-' %>
-                                    </td>
-                                    <td class="text-center">                                        
-                                        <img src="https://dicebear.com<%= encodeURIComponent(item.name) %>"
-                                            alt="Avatar" class="rounded-circle border shadow-sm"
-                                            style="width: 40px; height: 40px; object-fit: cover;">
-                                    </td>
-                                    <td>
-                                        <% if (item.isMarried === 1 || item.isMarried === 'true' || item.isMarried === true) { %>
-                                            <span class="badge bg-success px-3 py-2 rounded-pill">Yes</span>
-                                        <% } else { %>
-                                            <span class="badge bg-danger px-3 py-2 rounded-pill">No</span>
+                            <% } else { %>
+                                <% rows.forEach((item, index)=> { %>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            <%= (typeof currentOffset !=='undefined' ? currentOffset : 0) + index + 1 %>
+                                        </td>
+                                        <td>
+                                            <%= item.name %>
+                                        </td>
+                                        <td>
+                                            <%= item.height || '-' %>
+                                        </td>
+                                        <td>
+                                            <%= item.weight || '-' %>
+                                        </td>
+                                        <td>
+                                            <%= item.birthdate || '-' %>
+                                        </td>
+                                        <td class="text-center">
+                                            <img src="https://dicebear.com<%= encodeURIComponent(item.name) %>"
+                                                alt="Avatar" class="rounded-circle border shadow-sm"
+                                                style="width: 40px; height: 40px; object-fit: cover;">
+                                        </td>
+                                        <td>
+                                            <% if (item.isMarried===1 || item.isMarried==='true' ||
+                                                item.isMarried===true) { %>
+                                                <span class="badge bg-success px-3 py-2 rounded-pill">Yes</span>
+                                                <% } else { %>
+                                                    <span class="badge bg-danger px-3 py-2 rounded-pill">No</span>
+                                                    <% } %>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex justify-content-center gap-2">
+                                                <a href="/update/<%= item.id %>?page=<%= typeof page !== 'undefined' ? page : 1 %><%= typeof querySearch !== 'undefined' && querySearch ? '&search=' + encodeURIComponent(querySearch) : '' %>"
+                                                    class="btn btn-sm btn-success px-3">Update</a>
+                                                <a href="/delete/<%= item.id %>" class="btn btn-sm btn-danger px-3"
+                                                    onclick="return confirm('Are you sure you want to delete <%= item.name %>?')">Delete</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <% }) %>
                                         <% } %>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex justify-content-center gap-2">                           
-                                            <a href="/update/<%= item.id %>?page=<%= typeof page !== 'undefined' ? page : 1 %><%= typeof querySearch !== 'undefined' && querySearch ? '&search=' + encodeURIComponent(querySearch) : '' %>"
-                                                class="btn btn-sm btn-success px-3">Update</a>
-                                            <a href="/delete/<%= item.id %>" class="btn btn-sm btn-danger px-3"
-                                                onclick="return confirm('Are you sure you want to delete <%= item.name %>?')">Delete</a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            <% }) %>
-                        <% } %>
                     </tbody>
                 </table>
             </div>
 
             <div class="d-flex flex-column gap-3">
-                
-                <% if (typeof pages !== 'undefined' && pages > 1) { %>
+
+                <% if (typeof pages !=='undefined' && pages> 1) { %>
                     <nav aria-label="Page navigation" class="d-flex justify-content-start">
                         <ul class="pagination mb-0 shadow-sm rounded">
                             <li class="page-item <%= page == 1 ? 'disabled' : '' %>">
                                 <a class="page-link"
                                     href="?page=<%= parseInt(page) - 1 %><%= typeof querySearch !== 'undefined' && querySearch ? '&search=' + encodeURIComponent(querySearch) : '' %>">Previous</a>
-                            </li>                            
-                            <% for (let i = 1; i <= pages; i++) { %>
+                            </li>
+                            <% for (let i=1; i <=pages; i++) { %>
                                 <li class="page-item <%= page == i ? 'active' : '' %>">
                                     <a class="page-link"
                                         href="?page=<%= i %><%= typeof querySearch !== 'undefined' && querySearch ? '&search=' + encodeURIComponent(querySearch) : '' %>">
                                         <%= i %>
                                     </a>
                                 </li>
-                            <% } %>
-                            <li class="page-item <%= page == pages ? 'disabled' : '' %>">
-                                <a class="page-link"
-                                    href="?page=<%= parseInt(page) + 1 %><%= typeof querySearch !== 'undefined' && querySearch ? '&search=' + encodeURIComponent(querySearch) : '' %>">Next</a>
-                            </li>
+                                <% } %>
+                                    <li class="page-item <%= page == pages ? 'disabled' : '' %>">
+                                        <a class="page-link"
+                                            href="?page=<%= parseInt(page) + 1 %><%= typeof querySearch !== 'undefined' && querySearch ? '&search=' + encodeURIComponent(querySearch) : '' %>">Next</a>
+                                    </li>
                         </ul>
                     </nav>
-                <% } %> 
+                    <% } %>
 
-                <div class="d-flex justify-content-start">
-                    <button type="button" class="btn btn-primary px-4 fw-bold" onclick="window.location.href='/add'">
-                        Add
-                    </button>
-                </div>
+                        <div class="d-flex justify-content-start">
+                            <button type="button" class="btn btn-primary px-4 fw-bold"
+                                onclick="window.location.href='/add'">
+                                Add
+                            </button>
+                        </div>
 
             </div>
 
