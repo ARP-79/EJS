@@ -10,7 +10,7 @@ app.use(express.urlencoded({ extended: true }));
 app.get('/', (req, res) => {
     const page = parseInt(req.query.page) || 1; 
     const querySearch = req.query.search || ''; 
-    const limit = 3;                            
+    const limit = 2;                            
     const offset = (page - 1) * limit;         
 
     let countQuery = 'SELECT COUNT(*) AS total FROM siswa';
