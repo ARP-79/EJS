@@ -9,16 +9,14 @@ app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
     const page = parseInt(req.query.page) || 1; 
-    const limit = 2; // Sesuai kode awal Anda (2 data per halaman)                            
+    const limit = 2;                           
     const offset = (page - 1) * limit;         
 
-    // 1. Ambil semua parameter filter dari URL (Form GET)
     const { name, height, weight, birthdate, isMarried } = req.query;
 
     let countQuery = 'SELECT COUNT(*) AS total FROM siswa';
     let selectQuery = 'SELECT * FROM siswa';
     
-    // 2. Buat kondisi query dinamis menggunakan Array
     let queryConditions = [];
     let params = [];
 
@@ -38,20 +36,17 @@ app.get('/', (req, res) => {
         queryConditions.push("birthdate = ?");
         params.push(birthdate);
     }
-    // Filter status nikah (0 untuk Not Yet, 1 untuk Yes)
     if (isMarried === '0' || isMarried === '1') {
         queryConditions.push("ismarried = ?");
         params.push(parseInt(isMarried));
     }
 
-    // 3. Gabungkan kondisi dengan klausa WHERE jika ada filter yang diisi
     if (queryConditions.length > 0) {
         const whereClause = ' WHERE ' + queryConditions.join(' AND ');
         countQuery += whereClause;
         selectQuery += whereClause;
     }
 
-    // Hitung total data berdasarkan filter
     db.get(countQuery, params, (err, countResult) => {
         if (err) {
             return res.status(500).send("Database error: " + err.message);
@@ -60,7 +55,6 @@ app.get('/', (req, res) => {
         const totalData = countResult ? countResult.total : 0;
         const pages = Math.ceil(totalData / limit); 
 
-        // Tambahkan LIMIT dan OFFSET untuk pagination
         let selectParams = [...params];
         selectQuery += ' LIMIT ? OFFSET ?';
         selectParams.push(limit, offset);
@@ -70,7 +64,6 @@ app.get('/', (req, res) => {
                 return res.status(500).send("Database error: " + err.message);
             }
 
-            // Kirim variabel filter balik ke EJS agar form tetap terisi teksnya
             res.render('table', { 
                 rows, 
                 page, 
@@ -107,7 +100,6 @@ app.get('/update/:id', (req, res) => {
     const id = req.params.id;
     const page = req.query.page || 1;
     
-    // Ambil state pencarian dari URL sewaktu klik edit
     const { name, height, weight, birthdate, isMarried } = req.query;
 
     const query = 'SELECT * FROM siswa WHERE id = ?';
@@ -137,7 +129,6 @@ app.post('/update/:id', (req, res) => {
     const { name, height, weight, birthdate, isMarried } = req.body;   
     const page = req.query.page || 1;
     
-    // Ambil state filter lama dari string query URL agar setelah save data tidak hilang filternya
     const qName = req.query.name || '';
     const qHeight = req.query.height || '';
     const qWeight = req.query.weight || '';
@@ -152,7 +143,6 @@ app.post('/update/:id', (req, res) => {
             return res.status(500).send("Failed to update data: " + err.message);
         }
         
-        // redirect kembali dengan membawa parameter filter lengkap
         let redirectUrl = `/?page=${page}`;
         if (qName) redirectUrl += `&name=${encodeURIComponent(qName)}`;
         if (qHeight) redirectUrl += `&height=${encodeURIComponent(qHeight)}`;
